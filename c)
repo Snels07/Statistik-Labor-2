@@ -1,0 +1,82 @@
+import numpy as np
+
+x = dat["Jahr"].to_numpy()
+y = dat["Einwohner"].to_numpy()
+
+m, b_lin = np.polyfit(x, y, 1)
+y_linear = m*x+b_lin
+Lin_Achsenabschnitt = b_lin
+Lin_Fehlerquatradsumme = np.sum((y-y_linear)**2)
+Gesamtstreuung = np.sum((y-np.mean(y))**2)
+Lin_Bestimmtheitsmaß = 1-Lin_Fehlerquatradsumme/Gesamtstreuung
+Lin_rmse = np.sqrt(Lin_Fehlerquatradsumme)
+
+coeffs = np.polyfit(x, y, 2)
+p2 = np.poly1d(coeffs)
+y_p2 = p2(x)
+p2_Achsenabschnitt = p2(0)
+Pol_2_Fehlerquatradsumme = np.sum((y-y_p2)**2)
+Pol_2_Bestimmtheitsmaß = 1-Pol_2_Fehlerquatradsumme/Gesamtstreuung
+Pol_2_rmse = np.sqrt(Pol_2_Fehlerquatradsumme)
+
+coeffs = np.polyfit(x, y, 4)
+p4 = np.poly1d(coeffs)
+y_p4 = p4(x)
+p4_Achsenabschnitt = p4(0)
+Pol_4_Fehlerquatradsumme = np.sum((y-y_p4)**2)
+Pol_4_Bestimmtheitsmaß = 1-Pol_4_Fehlerquatradsumme/Gesamtstreuung
+Pol_4_rmse = np.sqrt(Pol_4_Fehlerquatradsumme)
+
+coeffs = np.polyfit(x, y, 6)
+p6 = np.poly1d(coeffs)
+y_p6 = p6(x)
+p6_Achsenabschnitt = p6(0)
+Pol_6_Fehlerquatradsumme = np.sum((y-y_p6)**2)
+Pol_6_Bestimmtheitsmaß = 1-Pol_6_Fehlerquatradsumme/Gesamtstreuung
+Pol_6_rmse = np.sqrt(Pol_6_Fehlerquatradsumme)
+
+ln_y = np.log(y)
+b_exp, ln_a = np.polyfit(x, ln_y, 1)
+a = np.exp(ln_a)
+y_exp = a * np.exp(b_exp*x)
+exp_Achsenabschnitt = a
+Exp_Fehlerquatradsumme = np.sum((y-y_exp)**2)
+Exp_Bestimmtheitsmaß = 1-Exp_Fehlerquatradsumme/Gesamtstreuung
+exp_rmse = np.sqrt(Exp_Fehlerquatradsumme)
+
+Ergebnis = []
+Ergebnis.append({
+    "Typ": "Linear",
+    "Achsenabschnitt": Lin_Achsenabschnitt,
+    "R²": round(Lin_Bestimmtheitsmaß, 4),
+    "RMSE": Lin_rmse
+})
+
+Ergebnis.append({
+    "Typ": "Poly_2",
+    "Achsenabschnitt": p2_Achsenabschnitt,
+    "R²": round(Pol_2_Bestimmtheitsmaß, 4),
+    "RMSE": Pol_2_rmse
+})
+
+Ergebnis.append({
+    "Typ": "Poly_4",
+    "Achsenabschnitt": p4_Achsenabschnitt,
+    "R²": round(Pol_4_Bestimmtheitsmaß, 4),
+    "RMSE": 
+})
+
+Ergebnis.append({
+    "Typ": "Poly_6",
+    "Achsenabschnitt": p6_Achsenabschnitt,
+    "R²": round(Pol_6_Bestimmtheitsmaß, 4)
+})
+
+Ergebnis.append({
+    "Typ": "Expo",
+    "Achsenabschnitt": exp_Achsenabschnitt,
+    "R²": round(Exp_Bestimmtheitsmaß, 4)
+})
+
+dat_Ergebnis = pd.DataFrame(Ergebnis)
+print(dat_Ergebnis)
