@@ -1,0 +1,4 @@
+import pandas as pd
+
+dat = pd.read_csv('sr_aufg_2_38.txt', sep='\s+', decimal=',', header=None, names=['Jahr', 'Einwohner'])
+dat.head(50)
