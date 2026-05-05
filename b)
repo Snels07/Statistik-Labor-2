@@ -1,0 +1,4 @@
+import matplotlib.pyplot as plt
+
+plt.scatter(dat['Jahr'], dat['Einwohner'])
+plt.show()
